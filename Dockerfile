@@ -5,7 +5,7 @@ FROM php:7.4-apache
 WORKDIR /var/www/html
 
 # Copy PHP files from the local ./repo folder into the image
-COPY ./repo /var/www/html
+COPY ./src /var/www/html
 
 # Install any necessary dependencies or extensions
 # For example, if you need MySQL support:

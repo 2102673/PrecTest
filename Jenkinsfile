@@ -4,7 +4,7 @@ pipeline {
         stage('Checkout SCM') {
             agent any
             steps {
-                git branch: 'master', url: 'https://github.com/2102673/main.git'
+                git branch: 'master', url: 'https://github.com/2102673/PrecTest.git'
             }
         }
 
@@ -22,7 +22,7 @@ pipeline {
                     script {
                         def scannerHome = tool 'SonarQube'
                         withSonarQubeEnv('SonarQube') {
-                            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=SonarQube -Dsonar.sources=."
+                            sh "${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=OWASP -Dsonar.sources=."
                         }
                     }
                 }

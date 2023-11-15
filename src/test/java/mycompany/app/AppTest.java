@@ -24,11 +24,12 @@ public class AppTest
 	WebDriver driver; 
 	WebDriverWait wait; 
 	// String url = "http://192.168.50.207";
-	String url = "http://172.20.10.13";
+	String url = "http://172.0.0.1";
 
-    String validSearchTerm = "ValidSearch";
-    String xssAttackTerm = "<script>alert('XSS Attack');</script>";
-    String sqlInjectionTerm = "'; DROP TABLE users; --";
+    String commonPassword = "monkey";
+    String validPassword = "qwertygvcdsertyuj";
+	String xssString = "<script>alert('XSS Attack');</script>";
+    String sqlInjectionString = "'; DROP TABLE users; --";
 
     @Before
     public void setUp() { 
@@ -42,7 +43,7 @@ public class AppTest
 	}	 
 	
     @Test
-    public void testValidSearchTerm() 
+    public void testValidPassword() 
 		throws InterruptedException { 
 
 		//get web page
@@ -51,18 +52,18 @@ public class AppTest
 		wait.until(ExpectedConditions.titleContains("Home Page")); 
 
 		//enter input
-		driver.findElement(By.name("search")).sendKeys(validSearchTerm);
+		driver.findElement(By.name("password")).sendKeys(validPassword);
 		//click submit
 		driver.findElement(By.name("submit")).submit();
 	
 		//check result 
-		String expectedResult = "Search Results"; 
+		String expectedResult = "Welcome Page"; 
 		boolean isResultCorrect = wait.until(ExpectedConditions.titleContains(expectedResult)); 
 		assertTrue(isResultCorrect == true); 
 	}
 		
 	@Test
-    public void testXSSAttackTerm() 
+    public void testCommonPassword() 
 		throws InterruptedException { 
 
 		//get web page
@@ -71,7 +72,7 @@ public class AppTest
 		wait.until(ExpectedConditions.titleContains("Home Page")); 
 
 		//enter input
-		driver.findElement(By.name("search")).sendKeys(xssAttackTerm);
+		driver.findElement(By.name("password")).sendKeys(commonPassword);
 		//click submit
 		driver.findElement(By.name("submit")).submit();
 	
@@ -82,7 +83,7 @@ public class AppTest
 	}
 
 	@Test
-    public void testSQLInjectionTerm() 
+    public void testSQLInjection() 
 		throws InterruptedException { 
 
 		//get web page
@@ -91,7 +92,27 @@ public class AppTest
 		wait.until(ExpectedConditions.titleContains("Home Page")); 
 
 		//enter input
-		driver.findElement(By.name("search")).sendKeys(sqlInjectionTerm);
+		driver.findElement(By.name("password")).sendKeys(sqlInjectionString);
+		//click submit
+		driver.findElement(By.name("submit")).submit();
+	
+		//check result
+		String expectedResult = "Home Page"; 
+		boolean isResultCorrect = wait.until(ExpectedConditions.titleContains(expectedResult)); 
+		assertTrue(isResultCorrect == true); 
+	}
+
+	@Test
+    public void testXSSAttack() 
+		throws InterruptedException { 
+
+		//get web page
+		driver.get(url);
+		//wait until page is loaded or timeout error
+		wait.until(ExpectedConditions.titleContains("Home Page")); 
+
+		//enter input
+		driver.findElement(By.name("password")).sendKeys(xssString);
 		//click submit
 		driver.findElement(By.name("submit")).submit();
 	
